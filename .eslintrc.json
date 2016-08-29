@@ -1,0 +1,26 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": "airbnb",
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "no-param-reassign": [2, {
+      "props": false
+    }],
+    "max-len": [1, 100, 2, {
+      "ignoreUrls": true
+    }],
+    "strict": 0,
+    "comma-dangle": [2, "never"],
+    "new-cap": [2, {
+      "capIsNew": false
+    }]
+  }
+}
