@@ -11,7 +11,7 @@ exports.handler = (event, context, callback) => {
   
   if (authorizer.authorize()) {
     callback (null, {
-      message: 'Welcomee ${event.name}, to Lambda' 
+      message: `Welcome ${event.name}, to Lambda`
     });
   } else {
     callback({message: 'FAIL'}, null);
