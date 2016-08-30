@@ -5,6 +5,8 @@
 
 [Google TokenInfo Contract](https://david-codes.hatanian.com/2014/07/22/google-apis-checking-scopes-contained.html)
 
+[Lambda Unit Testing](https://github.com/vandium-io/lambda-tester/blob/master/docs/main.md)
+
 ## Prerequisites
 1. AWS-CLI
 2. Access Keys to configure your CLI
@@ -53,3 +55,34 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
     $ aws s3 cp lamda_authorizor-1.0.0.0.zip s3://example.bucket/lambda/lamda_authorizor/lamda_authorizor-1.0.0.0.zip
     $ python deploy.py --region us-west-2 --version 1.0.0.0
 ```
+
+### Example Input to Lambda Function (event)
+```JavaScript
+    {
+     "type":"TOKEN",
+     "authorizationToken":"<caller-supplied-token>",
+     "methodArn":"arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>"
+    }
+```
+    
+### Example Output (Policy)
+```
+    {
+     "issued_to": "407408718192.apps.googleusercontent.com",
+     "audience": "407408718192.apps.googleusercontent.com",
+     "user_id": "1170123456778279183758",
+     "scope": "https://www.googleapis.com/auth/userinfo.email",
+     "expires_in": 3585,
+     "email": "someone@yourdomain.com",
+     "verified_email": true,
+     "access_type": "offline"
+    }
+``` 
+    
+### Example Configuration
+```
+// Custom Authorizor Configs
+// Execution Role: arn:aws:iam::<accoundId>:role/lambda-invoke
+// Identity Token Source: method.request.header.Authorization
+```
+

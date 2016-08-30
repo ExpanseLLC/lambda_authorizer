@@ -8,10 +8,10 @@ exports.handler = (event, context, callback) => {
   // The callback function should be used to return from the handler
   // The callbacks first argument is an error
   // The callbacks second argument is for a successful JSON response
-  
-  if (authorizer.authorize()) {
+
+  if (authorizer.authorize(event, context)) {
     callback (null, {
-      message: `Welcome ${event.name}, to Lambda`
+      message: `Token is ${event.authorizationToken}`
     });
   } else {
     callback({message: 'FAIL'}, null);
