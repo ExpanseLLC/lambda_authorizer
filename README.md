@@ -66,7 +66,7 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
 ```
     
 ### Example Output (Policy)
-```
+```JavaScript
     {
      "issued_to": "407408718192.apps.googleusercontent.com",
      "audience": "407408718192.apps.googleusercontent.com",
