@@ -86,3 +86,36 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
 // Identity Token Source: method.request.header.Authorization
 ```
 
+### Identity Provider Contracts
+Google Valid Response
+```JavaScript
+curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
+200 OK
+{
+ "iss": "accounts.google.com",
+ "at_hash": "Tyxxxxx_xxx-xxxxxxx",
+ "aud": "blah-blah.apps.googleusercontent.com",
+ "sub": "xxxxx2166xxxxxxxxxxxx",
+ "email_verified": "true",
+ "azp": "blah-blah.apps.googleusercontent.com",
+ "email": "foo.bar@gmail.com",
+ "iat": "1xxxxxxxx6",
+ "exp": "1xxxxxxxx6",
+ "name": "M. L.E.",
+ "picture": "https://lh3.googleusercontent.com/-vQx9v-Xoek0/XXXX/XXXX/XXXX/s96-c/photo.jpg",
+ "given_name": "M.",
+ "family_name": "L.E.",
+ "locale": "en",
+ "alg": "RS256",
+ "kid": "a3225a704cfoobarxxxxxxce1c8612b"
+}
+```
+
+Google Invalid Token Response
+```JavaScript
+curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo 
+400 Bad Request
+{
+ "error_description": "Invalid Value"
+}
+```
