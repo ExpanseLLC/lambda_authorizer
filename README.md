@@ -3,7 +3,7 @@
 ## External Resources ##
 [AWS Authorizor Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
 
-[Google TokenInfo Contract](https://david-codes.hatanian.com/2014/07/22/google-apis-checking-scopes-contained.html)
+[Google TokenInfo Contract](https://developers.google.com/identity/sign-in/web/backend-auth#verify-the-integrity-of-the-id-token)
 
 [Lambda Unit Testing](https://github.com/vandium-io/lambda-tester/blob/master/docs/main.md)
 
@@ -94,7 +94,7 @@ curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
 {
  "iss": "accounts.google.com",
  "at_hash": "Tyxxxxx_xxx-xxxxxxx",
- "aud": "blah-blah.apps.googleusercontent.com",
+ "aud": "blah-blah.apps.googleusercontent.com",  //clientId proving call was made from our app
  "sub": "xxxxx2166xxxxxxxxxxxx",
  "email_verified": "true",
  "azp": "blah-blah.apps.googleusercontent.com",
