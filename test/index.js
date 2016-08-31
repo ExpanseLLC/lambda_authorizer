@@ -40,7 +40,7 @@ describe('index', () =>{
     });
 
     //TODO timeout() testing and configs
-    it('handler invocation should succeed', () =>{
+    it('handler invocation should timeout after N seconds', () =>{
         return LambdaTester(index.handler)
             .event( {
                 type: 'TOKEN',
