@@ -3,9 +3,10 @@
  */
 'use strict'
 const expect = require('chai').expect;
+const sinon = require('sinon');
 const td = require('testdouble');
-const AuthorizerModule = require('../lib/AuthorizerModule');
-const authMod = new AuthorizerModule();
+const AuthorizerModule= require('../lib/AuthorizerModule');
+var authMod = new AuthorizerModule();
 
 var event = {
     type: 'TOKEN',
@@ -15,9 +16,20 @@ var event = {
 
 var context = {};
 
+var googleModStub = {
+    callIdProvider() {
+        return "eb@gmail.com";
+    }
+};
+
 describe('authorizer unit tests', () => {
+    before('setup', () => {
+        console.info("who knows");
+    });
+
     it('authorizer should run', () => {
-        authMod.authorize(event, context);
+
+        authMod.buildPolicy("foo@gmail.com");
     });
 });
 
