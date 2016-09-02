@@ -1,11 +1,12 @@
 /**
  * Created by beezus on 8/31/16.
  */
-'use strict'
+'use strict';
 const assert = require('chai').assert;
 const sinon = require('sinon');
 const AuthorizerModule= require('../lib/AuthorizerModule');
 var authMod = new AuthorizerModule();
+
 
 var event = {
     type: 'TOKEN',
@@ -15,58 +16,56 @@ var event = {
 
 var context = {};
 var googPrincipalId = "jenkypenky@gmail.com";
-var fbPrincipalId = "jenky@facebook.com";
+var fbPrincipalId = "jenkypenky@facebook.com";
 var amznPrincipalId = "jenkypenky@amazon.com";
 var idProviderFunction = 'callIdProvider';
 var buildPolicySpy;
 
+/**
+ * If the IdProviderCaller (i.e. googleMod, fbMod, amznMod) are not stubbed they will return 0,
+ * or unsuccessful result.
+ * Stubs return success results.
+ */
 describe('Authorizer Unit Tests on authorize()', () => {
-    before('setup', () => {
-        console.info("Configuring Stubs");
-        sinon.stub(authMod.googleMod, idProviderFunction, () => { return googPrincipalId; });
-        sinon.stub(authMod.facebookMod, idProviderFunction, () => { return fbPrincipalId; });
-        sinon.stub(authMod.amznMod, idProviderFunction, () => { return amznPrincipalId; });
-    });
 
     beforeEach('reset the spy', () => {
         buildPolicySpy = sinon.spy(authMod, 'buildPolicy');
     });
 
+    /** google token success test **/
     it('Authorizer authorize() flow should not call facebook or amazon id providers', () => {
+        sinon.stub(authMod.googleMod, idProviderFunction, () => { return googPrincipalId; });
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
         assert(buildPolicySpy.calledWith(googPrincipalId));
         assert(buildPolicySpy.neverCalledWith(fbPrincipalId));
         assert(buildPolicySpy.neverCalledWith(amznPrincipalId));
+        authMod.googleMod.callIdProvider.restore();
     });
 
+    /** facebook token success test **/
     it('Authorizer authorize() flow should not call google or amazon id providers', () => {
-        authMod.googleMod.callIdProvider.restore();
+        sinon.stub(authMod.facebookMod, idProviderFunction, () => { return fbPrincipalId; });
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
         assert(buildPolicySpy.calledWith(fbPrincipalId));
         assert(buildPolicySpy.neverCalledWith(googPrincipalId));
         assert(buildPolicySpy.neverCalledWith(amznPrincipalId));
+        authMod.facebookMod.callIdProvider.restore();
     });
 
+    /** amazon token success test **/
     it('Authorizer authorize() flow should not call google or facebook id providers', () => {
-        authMod.facebookMod.callIdProvider.restore();
+        sinon.stub(authMod.amznMod, idProviderFunction, () => { return amznPrincipalId; });
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
         assert(buildPolicySpy.calledWith(amznPrincipalId));
         assert(buildPolicySpy.neverCalledWith(googPrincipalId));
         assert(buildPolicySpy.neverCalledWith(fbPrincipalId));
+        authMod.amznMod.callIdProvider.restore();
     });
 
     afterEach(() => {
         buildPolicySpy.restore();
     });
 });
-
-/**
- * Mock objects are used to define expectations i.e: In this scenario I expect method A() to be called with such
- * and such parameters. Mocks record and verify such expectations.
- *
- * Stubs, on the other hand have a different purpose: they do not record or verify expectations,
- * but rather allow us to “replace” the behavior, state of the “fake”object in order to utilize a test scenario
- */
