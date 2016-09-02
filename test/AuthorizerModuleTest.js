@@ -20,46 +20,45 @@ var amznPrincipalId = "jenkypenky@amazon.com";
 var idProviderFunction = 'callIdProvider';
 var buildPolicySpy;
 
-
 describe('Authorizer Unit Tests on authorize()', () => {
     before('setup', () => {
-        console.info("Stubs are Setting Up");
+        console.info("Configuring Stubs");
         sinon.stub(authMod.googleMod, idProviderFunction, () => { return googPrincipalId; });
         sinon.stub(authMod.facebookMod, idProviderFunction, () => { return fbPrincipalId; });
         sinon.stub(authMod.amznMod, idProviderFunction, () => { return amznPrincipalId; });
+    });
 
-        // set up a spy for authMod.buildPolicy()
+    beforeEach('reset the spy', () => {
         buildPolicySpy = sinon.spy(authMod, 'buildPolicy');
     });
 
-    it('Authorizer authorize() flow in this case should never use facebook or amazon id providers', () => {
+    it('Authorizer authorize() flow should not call facebook or amazon id providers', () => {
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
-        assert(buildPolicySpy.neverCalledWith(fbPrincipalId));
-        var bool = buildPolicySpy.neverCalledWith("jenkypenky@gmail.com");
-        assert(buildPolicySpy.neverCalledWith(googPrincipalId) === false);
         assert(buildPolicySpy.calledWith(googPrincipalId));
+        assert(buildPolicySpy.neverCalledWith(fbPrincipalId));
         assert(buildPolicySpy.neverCalledWith(amznPrincipalId));
     });
 
-    it('Authorizer authorize() flow in this case should never use google or amazon id providers', () => {
+    it('Authorizer authorize() flow should not call google or amazon id providers', () => {
         authMod.googleMod.callIdProvider.restore();
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
+        assert(buildPolicySpy.calledWith(fbPrincipalId));
         assert(buildPolicySpy.neverCalledWith(googPrincipalId));
         assert(buildPolicySpy.neverCalledWith(amznPrincipalId));
     });
 
-    // it('authorizer should run', () => {
-    //     authMod.buildPolicy("foo@gmail.com");
-    // });
-
-    afterEach(() => {
-        buildPolicySpy.called = false;
+    it('Authorizer authorize() flow should not call google or facebook id providers', () => {
+        authMod.facebookMod.callIdProvider.restore();
+        authMod.authorize(event, context);
+        assert(buildPolicySpy.called);
+        assert(buildPolicySpy.calledWith(amznPrincipalId));
+        assert(buildPolicySpy.neverCalledWith(googPrincipalId));
+        assert(buildPolicySpy.neverCalledWith(fbPrincipalId));
     });
 
-    after('Run after each test', () => {
-        console.info("Cleaning up after each method . . . ");
+    afterEach(() => {
         buildPolicySpy.restore();
     });
 });
