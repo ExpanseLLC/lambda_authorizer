@@ -65,20 +65,24 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
     }
 ```
     
-### Example Output (Policy)
+### Example Policy Built By Authorizer to be Cached in ApiGateway 
 ```JavaScript
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
-     "issued_to": "407408718192.apps.googleusercontent.com",
-     "audience": "407408718192.apps.googleusercontent.com",
-     "user_id": "1170123456778279183758",
-     "scope": "https://www.googleapis.com/auth/userinfo.email",
-     "expires_in": 3585,
-     "email": "someone@yourdomain.com",
-     "verified_email": true,
-     "access_type": "offline"
+      "Effect": "Allow",
+      "Action": [
+        "execute-api:Invoke"
+      ],
+      "Resource": [
+        "arn:aws:execute-api:us-west-2:xxxxxxxxx:kvmxspwm7g/*/GET/"
+      ]
     }
-``` 
-    
+  ]
+}
+```
+
 ### Example Configuration
 ```
 // Custom Authorizor Configs

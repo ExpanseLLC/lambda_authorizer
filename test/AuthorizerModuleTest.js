@@ -5,8 +5,6 @@
 const assert = require('chai').assert;
 const sinon = require('sinon');
 const AuthorizerModule= require('../lib/AuthorizerModule');
-var authMod = new AuthorizerModule();
-
 
 var event = {
     type: 'TOKEN',
@@ -27,6 +25,8 @@ var buildPolicySpy;
  * Stubs return success results.
  */
 describe('Authorizer Unit Tests on authorize()', () => {
+
+    var authMod = new AuthorizerModule();
 
     beforeEach('reset the spy', () => {
         buildPolicySpy = sinon.spy(authMod, 'buildPolicy');
@@ -68,4 +68,10 @@ describe('Authorizer Unit Tests on authorize()', () => {
     afterEach(() => {
         buildPolicySpy.restore();
     });
+});
+
+describe('Authorizer Unit Tests on buildPolicy()', () => {
+
+    var authMod = new AuthorizerModule();
+
 });
