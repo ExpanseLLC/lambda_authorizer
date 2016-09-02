@@ -4,7 +4,6 @@
 'use strict'
 const assert = require('chai').assert;
 const sinon = require('sinon');
-const td = require('testdouble');
 const AuthorizerModule= require('../lib/AuthorizerModule');
 var authMod = new AuthorizerModule();
 
@@ -37,11 +36,14 @@ describe('Authorizer Unit Tests on authorize()', () => {
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
         assert(buildPolicySpy.neverCalledWith(fbPrincipalId));
+        var bool = buildPolicySpy.neverCalledWith("jenkypenky@gmail.com");
+        assert(buildPolicySpy.neverCalledWith(googPrincipalId) === false);
+        assert(buildPolicySpy.calledWith(googPrincipalId));
         assert(buildPolicySpy.neverCalledWith(amznPrincipalId));
     });
 
     it('Authorizer authorize() flow in this case should never use google or amazon id providers', () => {
-        authMod.googleMod.restore();
+        authMod.googleMod.callIdProvider.restore();
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
         assert(buildPolicySpy.neverCalledWith(googPrincipalId));
