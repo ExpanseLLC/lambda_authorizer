@@ -4,61 +4,61 @@ const LambdaTester = require('lambda-tester');
 const index = require('../index.js');
 
 describe('index within lambda context', () =>{
-  // it('handler should call authorizor', () => {
-  //   return LambdaTester(index.handler)
-  //       .event( {
-  //           type: 'TOKEN',
-  //           authorizationToken: 'TestToken',
-  //           methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
-  //       } )
-  //       .expectResult();
-  // });
-  //
-  //   it('handler invocation should succeed and lets descend further', () => {
-  //       return LambdaTester(index.handler)
-  //           .event( {
-  //               type: 'TOKEN',
-  //               authorizationToken: 'TestToken',
-  //               methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
-  //           } )
-  //           .expectResult(function(result){
-  //               expect( result.message ).to.equal( 'Token is TestToken' );
-  //           });
-  //   });
-  //
-  //   //TODO timeout() testing and configs
-  //   it('handler invocation should timeout after N seconds', () => {
-  //       return LambdaTester(index.handler)
-  //           .event( {
-  //               type: 'TOKEN',
-  //               authorizationToken: 'TestToken',
-  //               methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
-  //           } )
-  //           .timeout( 1 /* fail if longer than 1 second */ )
-  //           .expectResult();
-  //   });
-  //
-  //   //TODO verify context.fail()
-  //   it('verify context fail', () => {
-  //       return LambdaTester(index.handler)
-  //           .event( {
-  //               type: 'TOKEN',
-  //               authorizationToken: 'TestToken',
-  //               methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
-  //           })
-  //           .expectResult();
-  //   });
-  //
-  //   //TODO verify context.succeed()
-  //   it('verify context succeed', () => {
-  //       return LambdaTester(index.handler)
-  //           .event( {
-  //               type: 'TOKEN',
-  //               authorizationToken: 'TestToken',
-  //               methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
-  //           })
-  //           .expectResult();
-  //   });
+  it('handler should call authorizor', () => {
+    return LambdaTester(index.handler)
+        .event( {
+            type: 'TOKEN',
+            authorizationToken: 'TestToken',
+            methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+        } )
+        .expectResult();
+  });
+
+    it('handler invocation should succeed and lets descend further', () => {
+        return LambdaTester(index.handler)
+            .event( {
+                type: 'TOKEN',
+                authorizationToken: 'TestToken',
+                methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+            } )
+            .expectResult(function(result){
+                expect( result.message ).to.equal( 'Token is TestToken' );
+            });
+    });
+
+    //TODO timeout() testing and configs
+    it('handler invocation should timeout after N seconds', () => {
+        return LambdaTester(index.handler)
+            .event( {
+                type: 'TOKEN',
+                authorizationToken: 'TestToken',
+                methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+            } )
+            .timeout( 1 /* fail if longer than 1 second */ )
+            .expectResult();
+    });
+
+    //TODO verify context.fail()
+    it('verify context fail', () => {
+        return LambdaTester(index.handler)
+            .event( {
+                type: 'TOKEN',
+                authorizationToken: 'TestToken',
+                methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+            })
+            .expectResult();
+    });
+
+    //TODO verify context.succeed()
+    it('verify context succeed', () => {
+        return LambdaTester(index.handler)
+            .event( {
+                type: 'TOKEN',
+                authorizationToken: 'TestToken',
+                methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+            })
+            .expectResult();
+    });
 });
 
 

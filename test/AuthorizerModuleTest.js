@@ -13,6 +13,8 @@ var event = {
     };
 
 var context = {};
+
+var accountId = '<accountId>';
 var googPrincipalId = "jenkypenky@gmail.com";
 var fbPrincipalId = "jenkypenky@facebook.com";
 var amznPrincipalId = "jenkypenky@amazon.com";
@@ -37,9 +39,9 @@ describe('Authorizer Unit Tests on authorize()', () => {
         sinon.stub(authMod.googleMod, idProviderFunction, () => { return googPrincipalId; });
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
-        assert(buildPolicySpy.calledWith(googPrincipalId, context));
-        assert(buildPolicySpy.neverCalledWith(fbPrincipalId, context));
-        assert(buildPolicySpy.neverCalledWith(amznPrincipalId, context));
+        assert(buildPolicySpy.calledWith(googPrincipalId, context, accountId));
+        assert(buildPolicySpy.neverCalledWith(fbPrincipalId, context, accountId));
+        assert(buildPolicySpy.neverCalledWith(amznPrincipalId, context, accountId));
         authMod.googleMod.callIdProvider.restore();
     });
 
@@ -48,9 +50,9 @@ describe('Authorizer Unit Tests on authorize()', () => {
         sinon.stub(authMod.facebookMod, idProviderFunction, () => { return fbPrincipalId; });
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
-        assert(buildPolicySpy.calledWith(fbPrincipalId, context));
-        assert(buildPolicySpy.neverCalledWith(googPrincipalId, context));
-        assert(buildPolicySpy.neverCalledWith(amznPrincipalId, context));
+        assert(buildPolicySpy.calledWith(fbPrincipalId, context, accountId));
+        assert(buildPolicySpy.neverCalledWith(googPrincipalId, context, accountId));
+        assert(buildPolicySpy.neverCalledWith(amznPrincipalId, context, accountId));
         authMod.facebookMod.callIdProvider.restore();
     });
 
@@ -59,9 +61,9 @@ describe('Authorizer Unit Tests on authorize()', () => {
         sinon.stub(authMod.amznMod, idProviderFunction, () => { return amznPrincipalId; });
         authMod.authorize(event, context);
         assert(buildPolicySpy.called);
-        assert(buildPolicySpy.calledWith(amznPrincipalId, context));
-        assert(buildPolicySpy.neverCalledWith(googPrincipalId, context));
-        assert(buildPolicySpy.neverCalledWith(fbPrincipalId, context));
+        assert(buildPolicySpy.calledWith(amznPrincipalId, context, accountId));
+        assert(buildPolicySpy.neverCalledWith(googPrincipalId, context, accountId));
+        assert(buildPolicySpy.neverCalledWith(fbPrincipalId, context, accountId));
         authMod.amznMod.callIdProvider.restore();
     });
 
@@ -70,9 +72,19 @@ describe('Authorizer Unit Tests on authorize()', () => {
     });
 });
 
+describe('Authorizer Unit Tests on retrieveAccountId()', () => {
+
+    var authMod = new AuthorizerModule();
+    it('Resulting tests from Authorizer retrieveAccountId()', () => {
+        assert(accountId === authMod.retrieveAccountId(event));
+    });
+
+});
+
 describe('Authorizer Unit Tests on buildPolicy()', () => {
 
     var authMod = new AuthorizerModule();
-    it('Resulting policy tests from Authorizer buildPolicy()');
+
+    it('Resulting tests from Authorizer buildPolicy()');
 
 });
