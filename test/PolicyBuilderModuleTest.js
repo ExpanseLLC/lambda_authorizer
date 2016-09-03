@@ -6,7 +6,46 @@ const assert = require('chai').assert;
 const sinon = require('sinon');
 const PolicyBuilder = require('../lib/PolicyBuilderModule');
 
-describe('PolicyBuilder tests', () => {
+/**
+ * A legit policy needs to be like so:
+ *   {
+ *      "principalId": "xxxxxxxx",
+ *      "policyDocument": {
+ *          "Version": "2012-10-17",
+ *          "Statement": [
+ *           {
+ *               "Effect": "Allow",
+ *               "Action": [
+ *                   "execute-api:Invoke"
+ *                ],
+ *                "Resource": [
+ *                 "arn:aws:execute-api:<regionId>:<accountId>:<appId>/<stage>/<httpVerb>/[<resource>/<httpVerb>/[...]]"
+ *               ]
+ *           }
+ *           ]
+ *      }
+ *   }
+ */
 
-    var policyBuilder = new PolicyBuilder();
+describe('PolicyBuilder Unit Tests', () => {
+
+    var testPrincipalId = "jenkypenky@gmail.com";
+    var context = {};
+    var event = {
+        type: 'TOKEN',
+        authorizationToken: 'fooToken',
+        methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+    };
+
+    it('PolicyBuilder should have version of 2012-10-17', () => {
+        console.info("Policy Tests Running");
+        var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
+        var policy = policyBuilder.build();
+        console.info('did we build a policy? huh? HUH?');
+    });
+
+    it('Resulting tests from Authorizer retrieveAccountId()', () => {
+        var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
+        assert('<accountId>' === policyBuilder.retrieveAccountId(event));
+    });
 });
