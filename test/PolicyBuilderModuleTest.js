@@ -49,6 +49,16 @@ describe('PolicyBuilder Unit Tests', () => {
         assert('<accountId>' === policyBuilder.retrieveAccountId(event));
     });
 
+    it('PolicyBuilder.retrieveAccountId() returns false when receives undefined', () => {
+        var policyBuilder = new PolicyBuilder(testPrincipalId, context);
+        assert(false === policyBuilder.retrieveAccountId());
+    });
+
+    it('PolicyBuilder.retrieveRegion() should return regionId', () => {
+        var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
+        assert('<regionId>' === policyBuilder.retrieveRegion(event));
+    });
+
     it('PolicyBuilder.retrieveRegion() returns falsey when receives undefined', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context);
         assert( false === policyBuilder.retrieveRegion());
