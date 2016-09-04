@@ -1,4 +1,5 @@
-# lamda_authorizor
+# Custom Lambda Authorizer for ApiGateway 
+Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon.
 
 ## External Resources ##
 [AWS Authorizor Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
