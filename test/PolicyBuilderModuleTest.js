@@ -44,8 +44,13 @@ describe('PolicyBuilder Unit Tests', () => {
         console.info('did we build a policy? huh? HUH?');
     });
 
-    it('Resulting tests from Authorizer retrieveAccountId()', () => {
+    it('PolicyBuilder.retrieveAccountId() should return an accountId', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
         assert('<accountId>' === policyBuilder.retrieveAccountId(event));
+    });
+
+    it('PolicyBuilder.retrieveRegion() returns falsey when receives undefined', () => {
+        var policyBuilder = new PolicyBuilder(testPrincipalId, context);
+        assert( false === policyBuilder.retrieveRegion());
     });
 });
