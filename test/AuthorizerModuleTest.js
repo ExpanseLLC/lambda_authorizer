@@ -22,9 +22,7 @@ var idProviderFunction = 'callIdProvider';
 var buildPolicySpy;
 
 /**
- * If the IdProviderCaller (i.e. googleMod, fbMod, amznMod) are not stubbed they will return 0,
- * or unsuccessful result.
- * Stubs return success results.
+ * TODO refactor to test promises contract
  */
 describe('Authorizer Unit Tests on authorize()', () => {
 
