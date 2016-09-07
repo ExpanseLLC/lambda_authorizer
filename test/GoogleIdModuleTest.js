@@ -2,7 +2,7 @@
  * Created by beezus on 9/5/16.
  */
 'use strict';
-const assert = require('chai').assert;
+const expect = require('chai').expect;
 const sinon = require('sinon');
 const nock = require('nock');
 const GoogleIdModule = require('../lib/GoogleIdModule');
@@ -39,19 +39,19 @@ describe('GoogleIdModule Unit Tests', () => {
     var invalidGoogPayload = {"error_description": "Mock Invalid Value"};
 
     /** see this projects README for the Google Token Contract **/
-    // it('Mock 200 Response from Google Token API to GoogleIdModule', (done) => {
-    //     nock('https://www.googleapis.com')
-    //         .get('/oauth2/v3/tokeninfo')
-    //         .query({id_token: goodToken})
-    //         .reply(200, validGoogPayload);
-    //
-    //     var result = googMod.callIdProvider(goodToken);
-    //     return result.then((data) => {
-    //         expect(data).to.equal(expectedPrincipalId);
-    //     });
-    // });
+    it('Mock 200 Response from Google Token API to GoogleIdModule', () => {
+        nock('https://www.googleapis.com')
+            .get('/oauth2/v3/tokeninfo')
+            .query({id_token: goodToken})
+            .reply(200, validGoogPayload);
 
-    it('Mock 400 Response from Google Token API to GoogleIdModule', (done) => {
+        var result = googMod.callIdProvider(goodToken);
+        return result.then(data => {
+            expect(data).to.equal(validGoogPayload);
+        });
+    });
+
+    it('Mock 400 Response from Google Token API to GoogleIdModule', () => {
         nock('https://www.googleapis.com')
             .get('/oauth2/v3/tokeninfo')
             .query({id_token: invalidToken})
@@ -64,6 +64,8 @@ describe('GoogleIdModule Unit Tests', () => {
     });
 
     it('A PrincipalId Should Be Derived from the Google Token Response', () => {
-        googMod.retrievePrincipalId(validGoogPayload);
+        var principalId = googMod.retrievePrincipalId(validGoogPayload);
+        expect(principalId).to.equal(expectedPrincipalId);
+
     });
 });
