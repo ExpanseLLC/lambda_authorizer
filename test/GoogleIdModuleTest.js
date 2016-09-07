@@ -39,18 +39,17 @@ describe('GoogleIdModule Unit Tests', () => {
     var invalidGoogPayload = {"error_description": "Mock Invalid Value"};
 
     /** see this projects README for the Google Token Contract **/
-    it('Mock 200 Response from Google Token API to GoogleIdModule', (done) => {
-        nock('https://www.googleapis.com')
-            .get('/oauth2/v3/tokeninfo')
-            .query({id_token: goodToken})
-            .reply(200, validGoogPayload);
-
-        var result = googMod.callIdProvider(goodToken);
-        result.then((data) => {
-            expect(data).to.equal(expectedPrincipalId);
-            done();
-        });
-    });
+    // it('Mock 200 Response from Google Token API to GoogleIdModule', (done) => {
+    //     nock('https://www.googleapis.com')
+    //         .get('/oauth2/v3/tokeninfo')
+    //         .query({id_token: goodToken})
+    //         .reply(200, validGoogPayload);
+    //
+    //     var result = googMod.callIdProvider(goodToken);
+    //     return result.then((data) => {
+    //         expect(data).to.equal(expectedPrincipalId);
+    //     });
+    // });
 
     it('Mock 400 Response from Google Token API to GoogleIdModule', (done) => {
         nock('https://www.googleapis.com')
@@ -59,9 +58,8 @@ describe('GoogleIdModule Unit Tests', () => {
             .reply(400, invalidGoogPayload);
 
         var result = googMod.callIdProvider(invalidToken);
-        result.catch(error => {
+        return result.catch(error => {
             expect(error).to.equal(0);
-            done();
         });
     });
 
