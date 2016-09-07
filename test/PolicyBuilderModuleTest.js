@@ -38,10 +38,8 @@ describe('PolicyBuilder Unit Tests', () => {
     };
 
     it('PolicyBuilder should have version of 2012-10-17', () => {
-        console.info("Policy Tests Running");
         var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
         var policy = policyBuilder.build();
-        console.info('did we build a policy? huh? HUH?');
     });
 
     it('PolicyBuilder.retrieveAccountId() should return an accountId', () => {
