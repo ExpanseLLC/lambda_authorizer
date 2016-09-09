@@ -26,7 +26,7 @@ describe('GoogleIdModule Unit Tests', () => {
 
         var result = googMod.callIdProvider(goodToken);
         return result.then(data => {
-            expect(data).to.equal(validGoogPayload);
+            expect(data).to.equal(expectedPrincipalId);
         });
     });
 
@@ -43,7 +43,7 @@ describe('GoogleIdModule Unit Tests', () => {
     });
 
     it('A PrincipalId Should Be Derived from the Google Token Response', () => {
-        var principalId = googMod.retrievePrincipalId(validGoogPayload);
+        var principalId = GoogleIdModule.retrievePrincipalId(validGoogPayload);
         expect(principalId).to.equal(expectedPrincipalId);
 
     });
