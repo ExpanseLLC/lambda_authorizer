@@ -56,7 +56,7 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
     $ python deploy.py --region us-west-2 --version 1.0.0.0
 ```
 
-### Example Input to Lambda Function (event)
+### Example Input to Lambda Function (as an event)
 ```JavaScript
     {
      "type":"TOKEN",
