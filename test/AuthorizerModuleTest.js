@@ -20,14 +20,16 @@ var googPrincipalId = "jenkypenky@gmail.com";
 var fbPrincipalId = "jenkypenky@facebook.com";
 var amznPrincipalId = "jenkypenky@amazon.com";
 var idProviderFunction = 'callIdProvider';
-var buildPolicySpy;
+
 
 /**
  * TODO refactor to test promises contract
  */
 describe('Authorizer Unit Tests on authorize()', () => {
 
+    var buildPolicySpy = null;
     var authMod = new AuthorizerModule();
+
     beforeEach('reset the spy', () => {
         buildPolicySpy = sinon.spy(authMod, 'buildPolicy');
     });
@@ -41,11 +43,10 @@ describe('Authorizer Unit Tests on authorize()', () => {
         );
         sinon.stub(authMod.googleMod, idProviderFunction, () => { return stubPromise; });
 
-        authMod.authorize(event, context);
-
-        expect(buildPolicySpy.called).should.eventually.equal(true);
-        //authMod.googleMod.callIdProvider.restore();
-        console.info('Did this ever go???');
+        return authMod.authorize(event, context)
+            .then( result => {
+                    assert(buildPolicySpy.called);
+            });
     });
 
     afterEach(() => {
