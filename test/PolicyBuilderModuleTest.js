@@ -37,6 +37,11 @@ describe('PolicyBuilder Unit Tests', () => {
         methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
     };
 
+    var effect = {
+        ALLOW : 'ALLOW',
+        DENY : 'DENY'
+    };
+
     it('PolicyBuilder should have version of 2012-10-17', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
         var policy = policyBuilder.build();
@@ -60,5 +65,11 @@ describe('PolicyBuilder Unit Tests', () => {
     it('PolicyBuilder.retrieveRegion() returns falsey when receives undefined', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context);
         assert( false === policyBuilder.retrieveRegion());
+    });
+
+    it('PolicyBuilder should create deny policy if null principalId', () => {
+        var policyBuilder = new PolicyBuilder(null, context, event);
+        var policy = policyBuilder.build();
+        assert( effect.DENY === policy.policyDocument.Effect );
     });
 });

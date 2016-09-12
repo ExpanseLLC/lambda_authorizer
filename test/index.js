@@ -11,7 +11,7 @@ describe('index within lambda context', () =>{
             authorizationToken: 'TestToken',
             methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
         } )
-        .expectResult();F
+        .expectResult();
   });
 
     it('index.js: handler invocation should succeed', () => {
