@@ -11,10 +11,10 @@ describe('index within lambda context', () =>{
             authorizationToken: 'TestToken',
             methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
         } )
-        .expectResult();
+        .expectResult();F
   });
 
-    it('handler invocation should succeed and lets descend further', () => {
+    it('index.js: handler invocation should succeed', () => {
         return LambdaTester(index.handler)
             .event( {
                 type: 'TOKEN',
@@ -27,7 +27,7 @@ describe('index within lambda context', () =>{
     });
 
     //TODO timeout() testing and configs
-    it('handler invocation should timeout after N seconds', () => {
+    it('index.js: handler invocation should timeout after N seconds', () => {
         return LambdaTester(index.handler)
             .event( {
                 type: 'TOKEN',
@@ -39,7 +39,7 @@ describe('index within lambda context', () =>{
     });
 
     //TODO verify context.fail()
-    it('verify context fail', () => {
+    it('index.js: verify context fail', () => {
         return LambdaTester(index.handler)
             .event( {
                 type: 'TOKEN',
@@ -50,7 +50,7 @@ describe('index within lambda context', () =>{
     });
 
     //TODO verify context.succeed()
-    it('verify context succeed', () => {
+    it('index.js: verify context succeed', () => {
         return LambdaTester(index.handler)
             .event( {
                 type: 'TOKEN',

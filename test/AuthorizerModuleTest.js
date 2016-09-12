@@ -54,10 +54,3 @@ describe('Authorizer Unit Tests on authorize()', () => {
     });
 });
 
-// describe('Authorizer Unit Tests on buildPolicy()', () => {
-//
-//     var authMod = new AuthorizerModule();
-//
-//     it('Resulting tests from Authorizer buildPolicy()');
-//
-// });
