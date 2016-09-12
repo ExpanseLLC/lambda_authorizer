@@ -1,4 +1,4 @@
-# Custom Lambda Authorizer for ApiGateway 
+# Custom Lambda Authorizer for ApiGateway using Node and Promise Pattern
 Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon Id Providers.
 
 ## External Resources ##
@@ -7,6 +7,7 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 [Google TokenInfo Contract](https://developers.google.com/identity/sign-in/web/backend-auth#verify-the-integrity-of-the-id-token)
 
 [Lambda Unit Testing](https://github.com/vandium-io/lambda-tester/blob/master/docs/main.md)
+[Lambda Support for Node and Promises](https://blogs.aws.amazon.com/javascript/post/Tx3BZ2DC4XARUGG/Support-for-Promises-in-the-SDK)
 
 ## Prerequisites
 1. AWS-CLI
