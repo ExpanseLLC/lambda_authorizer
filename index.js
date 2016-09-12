@@ -8,9 +8,11 @@ exports.handler = (event, context) => {
   
   authorizer.authorize(event, context)
       .then( (policy) => {
-        context.succeed(policy);
+        console.log('Success: Policy is '
+            + JSON.stringify(policy));
       } )
       .catch((error) => {
-        context.fail(error.message);
+        console.log('Error: error is '
+            + JSON.stringify(error));
       });
 };
