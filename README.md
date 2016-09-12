@@ -1,4 +1,5 @@
-# lamda_authorizor
+# Custom Lambda Authorizer for ApiGateway 
+Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon Id Providers.
 
 ## External Resources ##
 [AWS Authorizor Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
@@ -68,18 +69,20 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
 ### Example Policy Built By Authorizer to be Cached in ApiGateway 
 ```JavaScript
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "execute-api:Invoke"
-      ],
-      "Resource": [
-        "arn:aws:execute-api:us-west-2:xxxxxxxxx:kvmxspwm7g/*/GET/"
-      ]
-    }
-  ]
+    "principalId": "xxxxxxxx",
+     "policyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "execute-api:Invoke"
+            ],
+             "Resource": [
+                "arn:aws:execute-api:us-west-2:xxxxxxxxx:kvmxspwm7g/*/GET/"
+            ]
+        }
+        ]
 }
 ```
 

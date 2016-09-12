@@ -29,7 +29,7 @@ const PolicyBuilder = require('../lib/PolicyBuilderModule');
 
 describe('PolicyBuilder Unit Tests', () => {
 
-    var testPrincipalId = "jenkypenky@gmail.com";
+    var testPrincipalId = 'jenkypenky@gmail.com';
     var context = {};
     var event = {
         type: 'TOKEN',
