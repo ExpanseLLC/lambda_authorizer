@@ -8,6 +8,7 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 
 [Lambda Unit Testing](https://github.com/vandium-io/lambda-tester/blob/master/docs/main.md)
 [Lambda Support for Node and Promises](https://blogs.aws.amazon.com/javascript/post/Tx3BZ2DC4XARUGG/Support-for-Promises-in-the-SDK)
+[ES6 Promise Documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
 ## Prerequisites
 1. AWS-CLI
