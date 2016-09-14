@@ -12,6 +12,7 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 [Google TokenInfo Contract](https://developers.google.com/identity/sign-in/web/backend-auth#verify-the-integrity-of-the-id-token)
 
 [Lambda Unit Testing - Callback Pattern](https://github.com/vandium-io/lambda-tester/blob/master/docs/main.md)
+
 [Lambda Support for Node and Promises](https://blogs.aws.amazon.com/javascript/post/Tx3BZ2DC4XARUGG/Support-for-Promises-in-the-SDK)
 
 [ES6 Promise Documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
