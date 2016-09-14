@@ -1,6 +1,10 @@
 # Custom Lambda Authorizer for ApiGateway using Node and Promise Pattern
 Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon Id Providers.
 
+##Authors
+[Meghan Erickson](https://www.linkedin.com/in/meghanerickson)
+James Shank
+
 ## External Resources ##
 [AWS Authorizor Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
 
