@@ -3,7 +3,8 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 
 ##Authors
 [Meghan Erickson](https://www.linkedin.com/in/meghanerickson)
-James Shank
+
+[James Shank](https://www.linkedin.com/in/james-shank)
 
 ## External Resources ##
 [AWS Authorizor Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
