@@ -1,7 +1,7 @@
 {
-  "Name": "lamda_authorizor",
+  "Name": "lamda_authorizer",
   "S3Bucket": "repo.jenkinstucker.io",
-  "S3Context": "lambda/lamda_authorizor/",
+  "S3Context": "lambda/lamda_authorizer/",
   "Handler": "index.handler",
   "Memory": 256,
   "Role": "lambda-run",

@@ -69,7 +69,7 @@ class Deployer:
                         'S3Bucket': self.config['S3Bucket'],
                         'S3Key': self.config['S3Context'] + func_archive_name
                     },
-                    Description='lamda_authorizor Node.js function',
+                    Description='lamda_authorizer Node.js function',
                     Timeout=self.config['Timeout'],
                     MemorySize=self.config['Memory']
                 )

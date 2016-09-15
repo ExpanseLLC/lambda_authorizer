@@ -1,7 +1,7 @@
 {
-  "name": "lamda_authorizor",
-  "description": "lamda_authorizor Node.js Lambda function",
-  "repository": "lamda_authorizor",
+  "name": "lamda_authorizer",
+  "description": "lamda_authorizer Node.js Lambda function",
+  "repository": "lamda_authorizer",
   "version": "1.0.0",
   "dependencies": {},
   "devDependencies": {
@@ -22,6 +22,6 @@
     "test": "mocha test --recursive",
     "build": "sh build.sh ${npm_package_version}"
   },
-  "author": "Scott, Ryan",
-  "license": "ISC"
+  "author": "Expanse, LLC",
+  "license": "Apache-2.0"
 }

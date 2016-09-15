@@ -4,7 +4,7 @@
 // const index = require('../index.js');
 //
 // describe('index within lambda context', () =>{
-//   it('handler should call authorizor', () => {
+//   it('handler should call authorizer', () => {
 //     return LambdaTester(index.handler)
 //         .event( {
 //             type: 'TOKEN',
