@@ -13,5 +13,5 @@ else
 fi
 
 # Create archive with node.js module
-ARCHIVE_NAME="lamda_authorizor-${RELEASE_VERSION}.zip"
+ARCHIVE_NAME="lamda_authorizer-${RELEASE_VERSION}.zip"
 zip $ARCHIVE_NAME *.js lib/*.js node_modules

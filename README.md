@@ -62,7 +62,7 @@ Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to de
     
     $ npm test
     $ npm run build
-    $ aws s3 cp lamda_authorizor-1.0.0.0.zip s3://example.bucket/lambda/lamda_authorizor/lamda_authorizor-1.0.0.0.zip
+    $ aws s3 cp lamda_authorizer-1.0.0.0.zip s3://example.bucket/lambda/lamda_authorizer/lamda_authorizer-1.0.0.0.zip
     $ python deploy.py --region us-west-2 --version 1.0.0.0
 ```
 
