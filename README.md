@@ -1,7 +1,7 @@
 # Custom Lambda Authorizer for ApiGateway using Node and Promise Pattern
 Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon Id Providers.
 
-##Authors
+## Authors
 [Meghan Erickson](https://www.linkedin.com/in/meghanerickson)
 
 [James Shank](https://www.linkedin.com/in/james-shank)
@@ -39,31 +39,6 @@ The project contains a npm script `build`. This script will create an archive (z
 
 ```
     $ npm run build
-```
-
-## Deployment
-The ZIP file built by the `build` NPM task should be uploaded to S3. The [deploy-config.json](deploy-config.json) should 
-be updated with the details for how the function should run in AWS. 
-
-## Python (Boto)
-Once the archive is uploaded to S3, you can use the [deploy.py](deploy.py) to deploy/update the function.
-
-### Usage
-```
-    $ pip install -r requirements.txt
-    
-    $ python deploy.py --region us-west-2 --version {version}
-    $ python deploy.py --profile aws-test --region us-west-2 --version {version}
-```
-
-### Full Example
-```
-    $ pip install -r requirements.txt
-    
-    $ npm test
-    $ npm run build
-    $ aws s3 cp lamda_authorizer-1.0.0.0.zip s3://example.bucket/lambda/lamda_authorizer/lamda_authorizer-1.0.0.0.zip
-    $ python deploy.py --region us-west-2 --version 1.0.0.0
 ```
 
 ### Example Input to Lambda Function (as an event)
