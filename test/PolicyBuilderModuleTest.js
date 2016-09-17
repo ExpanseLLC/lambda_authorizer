@@ -34,12 +34,39 @@ describe('PolicyBuilder Unit Tests', () => {
     var event = {
         type: 'TOKEN',
         authorizationToken: 'fooToken',
-        methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
+        methodArn: 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null'
     };
 
     var effect = {
         ALLOW : 'ALLOW',
         DENY : 'DENY'
+    };
+
+    /**
+     * This policy was confirmed in Amazon's Policy Simulator:
+     * https://policysim.aws.amazon.com/home/index.jsp?#
+     * @type {{Version: string, Statement: *[]}}
+     */
+    var goodPolicy = {
+        Version: '2012-10-17',
+        Statement: [
+            {
+                Effect: 'ALLOW',
+                Action: 'execute-api:Invoke',
+                Resource: [
+                    'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null'
+                ]
+            }
+        ]
+    };
+    var goodArn = 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null';
+
+    var api_id = {
+        api_name: '0h00jda672',
+        description: 'LambdaMicroservice',
+        verb: 'GET',
+        phase: '*',  //all stages for now
+        resource: 'null'
     };
 
     it('PolicyBuilder should have version of 2012-10-17', () => {
@@ -49,7 +76,7 @@ describe('PolicyBuilder Unit Tests', () => {
 
     it('PolicyBuilder.retrieveAccountId() should return an accountId', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
-        assert('<accountId>' === policyBuilder.retrieveAccountId(event));
+        assert('420465592407' === policyBuilder.retrieveAccountId(event));
     });
 
     it('PolicyBuilder.retrieveAccountId() returns false when receives undefined', () => {
@@ -59,7 +86,7 @@ describe('PolicyBuilder Unit Tests', () => {
 
     it('PolicyBuilder.retrieveRegion() should return regionId', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
-        assert('<regionId>' === policyBuilder.retrieveRegion(event));
+        assert('us-west-2' === policyBuilder.retrieveRegion(event));
     });
 
     it('PolicyBuilder.retrieveRegion() returns falsey when receives undefined', () => {
@@ -70,6 +97,6 @@ describe('PolicyBuilder Unit Tests', () => {
     it('PolicyBuilder should create deny policy if null principalId', () => {
         var policyBuilder = new PolicyBuilder(null, context, event);
         var policy = policyBuilder.build();
-        assert( effect.DENY === policy.policyDocument.Effect );
+        assert( effect.DENY === policy.policyDocument.Statement[0].Effect );
     });
 });
