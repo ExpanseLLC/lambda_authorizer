@@ -1,4 +1,14 @@
-// 'use strict';
+/*!
+ * Expanse, LLC
+ * http://expansellc.io
+ *
+ * Copyright 2016
+ * Released under the Apache 2 license
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * @authors Meghan Erickson
+ */
+'use strict';
 // const expect = require('chai').expect;
 // const LambdaTester = require('lambda-tester');
 // const index = require('../index.js');
@@ -60,5 +70,3 @@
 //             .expectResult();
 //     });
 // });
-//
-//
