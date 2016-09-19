@@ -61,12 +61,12 @@ describe('PolicyBuilder Unit Tests', () => {
                 Effect: 'ALLOW',
                 Action: 'execute-api:Invoke',
                 Resource: [
-                    'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null'
+                    'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/'
                 ]
             }
         ]
     };
-    var goodArn = 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null';
+    var goodArn = 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/';
 
     var api_id = {
         api_name: '0h00jda672',
@@ -83,11 +83,11 @@ describe('PolicyBuilder Unit Tests', () => {
 
     it('PolicyBuilder.retrieveAccountId() should return an accountId', () => {
         var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
-        assert('420465592407' === policyBuilder.retrieveAccountId(event));
+        assert('420465592407' === policyBuilder.retrieveAccountId());
     });
 
     it('PolicyBuilder.retrieveAccountId() returns false when receives undefined', () => {
-        var policyBuilder = new PolicyBuilder(testPrincipalId, context);
+        var policyBuilder = new PolicyBuilder(testPrincipalId, null, null);
         assert(false === policyBuilder.retrieveAccountId());
     });
 
