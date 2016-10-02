@@ -8,7 +8,7 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 
 [Ryan Scott](https://www.linkedin.com/in/ryanwscott)
 
-## External Resources ##
+## External Resources
 [AWS Authorizer Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
 
 [Google TokenInfo Contract](https://developers.google.com/identity/sign-in/web/backend-auth#verify-the-integrity-of-the-id-token)
@@ -19,14 +19,12 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 
 [ES6 Promise Documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
-## Prerequisites
-1. AWS-CLI
-2. Access Keys to configure your CLI
+## Working in this project
 
-## Imported Libs
+### Imported Libs
 You can create additional imports in the `lib/` directory. The `lib/` will be included in the deployed artifact.
 
-## Testing
+### Testing
 Testing is done with [Mocha](https://mochajs.org).
 
 ```bash
@@ -35,58 +33,72 @@ $ npm install
 $ npm test
 ```
 
-## Building
+### Building
 The project contains a npm script `build`. This script will create an archive (zip) that can be uploaded to S3.
 
 ```bash
 $ npm run build
 ```
 
-### Example Input to Lambda Function (as an event)
+## How Lambda custom authorizer's work
+
+### Input to Lambda function (as an event)
+When AWS invokes a Lambda function as an `authorizer` the following JavaScript object is passed to the function as the `event`.
+
 ```JavaScript
 {
- "type":"TOKEN",
- "authorizationToken":"<caller-supplied-token>",
- "methodArn":"arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>"
+  type: "TOKEN",
+  authorizationToken: "<caller-supplied-token>",
+  methodArn: "arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>"
 }
 ```
 
-### Example Policy Built By Authorizer to be Cached in ApiGateway
+### Output from Lambda function (IAM Policy)
+The output of a custom authorizer should be an AWS IAM Policy. The policy should described the level of access the caller is allowed.
+This policy is also able to be cached in API Gateway for up to 300 seconds.
+
 ```JavaScript
 {
     "principalId": "xxxxxxxx",
-     "policyDocument": {
-        "Version": "2012-10-17",
-        "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "execute-api:Invoke"
-            ],
-             "Resource": [
-                "arn:aws:execute-api:us-west-2:xxxxxxxxx:kvmxspwm7g/*/GET/"
-            ]
-        }
+    "policyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [{
+        "Effect": "Allow",
+        "Action": [
+          "execute-api:Invoke"
+        ],
+        "Resource": [
+          "arn:aws:execute-api:{region}:{accountId}:{apiId}/*/GET/"
         ]
+      }]
+    }
 }
 ```
 
-### Example Configuration
+### Lambda Authorizer Configuration
+There are a few notable configurations for a custom authorizer.
+
+1. Execution Role. This should be an IAM Role with access to invoke a Lambda function.
 ```
-// Custom Authorizor Configs
-// Execution Role: arn:aws:iam::<accoundId>:role/lambda-invoke
-// Identity Token Source: method.request.header.Authorization
+arn:aws:iam::<accoundId>:role/lambda-invoke
+```
+2. Identity Token Source. This is where API Gateway looks for the incoming bearer token on the request.
+```
+method.request.header.Authorization
 ```
 
-### Identity Provider Contracts
-Google Valid Response
+## Identity Provider Contracts
+Each of the supported identity providers have their contracts described below.
+
+### Google
+Valid Token Information Response
 ```JavaScript
 curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
 200 OK
 {
  "iss": "accounts.google.com",
  "at_hash": "Tyxxxxx_xxx-xxxxxxx",
- "aud": "blah-blah.apps.googleusercontent.com",  //clientId proving call was made from our app
+ "aud": "blah-blah.apps.googleusercontent.com", //clientId proving call was made from our app
  "sub": "xxxxx2166xxxxxxxxxxxx",
  "email_verified": "true",
  "azp": "blah-blah.apps.googleusercontent.com",
@@ -103,7 +115,7 @@ curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
 }
 ```
 
-Google Invalid Token Response
+Invalid Token Information Response
 ```JavaScript
 curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
 400 Bad Request
@@ -112,9 +124,11 @@ curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
 }
 ```
 
+### Amazon
 [Login with Amazon](https://login.amazon.com/website)
 
 There are two steps required to `Login with Amazon`. Step one starts upon receiving a token from the client.
+
 1. Pass the client token to the Token API. This step is used to verify the client identifier the token was created with.
 2. Pass the client token to the Profile API. This step is used to retrieve the user's profile information.
 
@@ -126,7 +140,7 @@ curl -X GET https://api.amazon.com/auth/o2/tokeninfo?access_token=foo
 200 OK
 {
   "app_id": "amzn1.application.identifier",
-  "aud": "amzn1.application-oa2-client.identifier",
+  "aud": "amzn1.application-oa2-client.identifier", //clientId proving call was made from our app
   "exp": 818,
   "iat": 1475349936,
   "iss": "https://www.amazon.com",
@@ -144,3 +158,6 @@ curl -X GET -H "Authorization: Bearer foo" https://api.amazon.com/user/profile
   "user_id": "amzn1.account.identifier"
 }
 ```
+
+### Facebook
+TODO
