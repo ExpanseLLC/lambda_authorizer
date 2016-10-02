@@ -12,52 +12,88 @@
 const assert = require('chai').assert;
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const AuthorizerModule= require('../lib/AuthorizerModule');
+const AuthorizerModule = require('../lib/AuthorizerModule');
 
-var event = {
-    type: 'TOKEN',
-    authorizationToken: 'fooToken',
-    methodArn: 'arn:aws:execute-api:<regionId>:<accountId>:<apiId>/<stage>/<method>/<resourcePath>'
-    };
+const event = {
+  type: 'TOKEN',
+  authorizationToken: 'fooToken',
+  methodArn: 'arn:aws:execute-api:us-west-2:123456789012:0h00jda672/*/GET/'
+};
 
-var context = {};
-
-var accountId = '<accountId>';
-var googPrincipalId = "jenkypenky@gmail.com";
-var fbPrincipalId = "jenkypenky@facebook.com";
-var amznPrincipalId = "jenkypenky@amazon.com";
-var idProviderFunction = 'callIdProvider';
-
-
-/**
- * TODO refactor to test promises contract
- */
-describe('Authorizer Unit Tests on authorize()', () => {
-
-    var buildPolicySpy = null;
-    var authMod = new AuthorizerModule();
-
-    beforeEach('reset the spy', () => {
-        buildPolicySpy = sinon.spy(authMod, 'buildPolicy');
-    });
-
-    /** google token success test **/
-    it('Authorizer authorize() flow should not call facebook or amazon id providers', () => {
-        var stubPromise = new Promise(
-            (resolve, reject) => {
-                resolve(googPrincipalId);
-            }
-        );
-        sinon.stub(authMod.googleMod, idProviderFunction, () => { return stubPromise; });
-
-        return authMod.authorize(event, context)
-            .then( result => {
-                    assert(buildPolicySpy.called);
-            });
-    });
-
-    afterEach(() => {
-        buildPolicySpy.restore();
-    });
+const context = {};
+const googPrincipalId = 'jenkypenky@gmail.com';
+const fbPrincipalId = 'jenkypenky@facebook.com';
+const amznPrincipalId = 'jenkypenky@amazon.com';
+const idProviderFunction = 'callIdProvider';
+const badPromise = new Promise((resolve) => {
+  resolve(0);
 });
 
+describe('Authorizer Unit Tests on authorize()', () => {
+  let sandbox;
+  let buildPolicySpy = null;
+  const authMod = new AuthorizerModule();
+
+  beforeEach('reset the spy', () => {
+    sandbox = sinon.sandbox.create();
+
+    buildPolicySpy = sandbox.spy(authMod, 'buildPolicy');
+  });
+
+  it('Authorizer authorize() flow with valid Google', () => {
+    const goodPromise = new Promise((resolve) => {
+      resolve(googPrincipalId);
+    });
+
+    sandbox.stub(authMod.googleMod, idProviderFunction, () => goodPromise);
+    sandbox.stub(authMod.amznMod, idProviderFunction, () => badPromise);
+    sandbox.stub(authMod.facebookMod, idProviderFunction, () => badPromise);
+
+    return authMod.authorize(event, context)
+      .then((result) => {
+        assert(buildPolicySpy.called);
+
+        expect(result.principalId).to.equal(googPrincipalId);
+      });
+  });
+
+  it('Authorizer authorize() flow with valid Amazon', () => {
+    const goodPromise = new Promise((resolve) => {
+      resolve(amznPrincipalId);
+    });
+
+    sandbox.stub(authMod.googleMod, idProviderFunction, () => badPromise);
+    sandbox.stub(authMod.amznMod, idProviderFunction, () => goodPromise);
+    sandbox.stub(authMod.facebookMod, idProviderFunction, () => badPromise);
+
+    return authMod.authorize(event, context)
+      .then((result) => {
+        assert(buildPolicySpy.called);
+
+        expect(result.principalId).to.equal(amznPrincipalId);
+      });
+  });
+
+  // TODO enable when Facebook is working
+  xit('Authorizer authorize() flow with valid Facebook', () => {
+    const goodPromise = new Promise((resolve) => {
+      resolve(fbPrincipalId);
+    });
+
+    sandbox.stub(authMod.googleMod, idProviderFunction, () => badPromise);
+    sandbox.stub(authMod.amznMod, idProviderFunction, () => badPromise);
+    sandbox.stub(authMod.facebookMod, idProviderFunction, () => goodPromise);
+
+    return authMod.authorize(event, context)
+      .then((result) => {
+        assert(buildPolicySpy.called);
+
+        expect(result.principalId).to.equal(fbPrincipalId);
+      });
+  });
+
+  afterEach(() => {
+    buildPolicySpy.restore();
+    sandbox.restore();
+  });
+});
