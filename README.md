@@ -11,8 +11,6 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 ## External Resources
 [AWS Authorizer Blueprints](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints)
 
-[Google TokenInfo Contract](https://developers.google.com/identity/sign-in/web/backend-auth#verify-the-integrity-of-the-id-token)
-
 [Lambda Unit Testing - Callback Pattern](https://github.com/vandium-io/lambda-tester/blob/master/docs/main.md)
 
 [Lambda Support for Node and Promises](https://blogs.aws.amazon.com/javascript/post/Tx3BZ2DC4XARUGG/Support-for-Promises-in-the-SDK)
@@ -91,6 +89,8 @@ method.request.header.Authorization
 Each of the supported identity providers have their contracts described below.
 
 ### Google
+[Google TokenInfo Contract](https://developers.google.com/identity/sign-in/web/backend-auth#verify-the-integrity-of-the-id-token)
+
 Valid Token Information Response
 ```JavaScript
 curl -X GET https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=foo
