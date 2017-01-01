@@ -37,6 +37,11 @@ The project contains a npm script `build`. This script will create an archive (z
 ```bash
 $ npm run build
 ```
+### Configuration
+The identity providers used in this authorizer are configured through the [ProviderConfig](config/ProviderConfig.js).
+
+#### Facebook
+Facebook requires an application identifier as well as a application secret for calling their API. Update these values before building/deploying.
 
 ## How Lambda custom authorizer's work
 
@@ -160,4 +165,21 @@ curl -X GET -H "Authorization: Bearer foo" https://api.amazon.com/user/profile
 ```
 
 ### Facebook
-TODO
+[Login with Facebook](https://developers.facebook.com/docs/facebook-login)
+
+Valid Token Response
+```JavaScript
+{
+  "data": {
+    "app_id": "application.identifier",
+    "application": "ExpanseIO Test App",
+    "expires_at": 1473112800,
+    "is_valid": true,
+    "scopes": [
+      "email",
+      "public_profile"
+    ],
+    "user_id": "account.identifier"
+  }
+}
+```

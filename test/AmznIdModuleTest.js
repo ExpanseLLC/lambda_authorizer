@@ -11,10 +11,11 @@
 'use strict';
 const expect = require('chai').expect;
 const nock = require('nock');
+const ProviderConfig = require('../config/ProviderConfig');
 const AmznIdModule = require('../lib/AmznIdModule');
 
 describe('AmznIdModule Unit Tests', () => {
-  const amznMod = new AmznIdModule();
+  const amznMod = new AmznIdModule(new ProviderConfig());
   const goodToken = 'good';
   const invalidToken = 'invalid';
   const expectedPrincipalId = 'jenkypenky@gmail.com';
@@ -36,8 +37,8 @@ describe('AmznIdModule Unit Tests', () => {
         Authorization: 'Bearer '.concat(goodToken)
       }
     })
-      .get('/user/profile')
-      .reply(200, validProfilePayload);
+    .get('/user/profile')
+    .reply(200, validProfilePayload);
 
     return amznMod.callIdProvider(goodToken)
       .then(data => {
@@ -60,8 +61,8 @@ describe('AmznIdModule Unit Tests', () => {
         Authorization: 'Bearer '.concat(invalidToken)
       }
     })
-      .get('/user/profile')
-      .reply(400, invalidProfilePayload);
+    .get('/user/profile')
+    .reply(400, invalidProfilePayload);
 
     return amznMod.callIdProvider(invalidToken)
       .catch(error => {
