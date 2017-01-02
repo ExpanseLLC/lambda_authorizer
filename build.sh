@@ -17,7 +17,7 @@ fi
 
 # Create archive with node.js module
 ARCHIVE_NAME="lamda_authorizer-${RELEASE_VERSION}.zip"
-zip --quiet -r $ARCHIVE_NAME *.js lib/*.js node_modules/*
+zip --quiet -r $ARCHIVE_NAME *.js config/*.js lib/*.js node_modules/*
 
 # Reinstall all the deps for development to continue
 npm install

@@ -10,7 +10,6 @@
  */
 'use strict';
 const assert = require('chai').assert;
-const sinon = require('sinon');
 const PolicyBuilder = require('../lib/PolicyBuilderModule');
 
 /**
@@ -33,77 +32,49 @@ const PolicyBuilder = require('../lib/PolicyBuilderModule');
  *      }
  *   }
  */
-
 describe('PolicyBuilder Unit Tests', () => {
+  const testPrincipalId = 'jenkypenky@gmail.com';
+  const context = {};
+  const event = {
+    type: 'TOKEN',
+    authorizationToken: 'fooToken',
+    methodArn: 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null'
+  };
 
-    var testPrincipalId = 'jenkypenky@gmail.com';
-    var context = {};
-    var event = {
-        type: 'TOKEN',
-        authorizationToken: 'fooToken',
-        methodArn: 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/null'
-    };
+  const effect = {
+    ALLOW: 'ALLOW',
+    DENY: 'DENY'
+  };
 
-    var effect = {
-        ALLOW : 'ALLOW',
-        DENY : 'DENY'
-    };
+  it('PolicyBuilder should have version of 2012-10-17', () => {
+    const policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
+    const policy = policyBuilder.build();
+    assert(policy.policyDocument.Version === '2012-10-17');
+  });
 
-    /**
-     * This policy was confirmed in Amazon's Policy Simulator:
-     * https://policysim.aws.amazon.com/home/index.jsp?#
-     * @type {{Version: string, Statement: *[]}}
-     */
-    var goodPolicy = {
-        Version: '2012-10-17',
-        Statement: [
-            {
-                Effect: 'ALLOW',
-                Action: 'execute-api:Invoke',
-                Resource: [
-                    'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/'
-                ]
-            }
-        ]
-    };
-    var goodArn = 'arn:aws:execute-api:us-west-2:420465592407:0h00jda672/*/GET/';
+  it('PolicyBuilder.retrieveAccountId() should return an accountId', () => {
+    const policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
+    assert(policyBuilder.retrieveAccountId() === '420465592407');
+  });
 
-    var api_id = {
-        api_name: '0h00jda672',
-        description: 'LambdaMicroservice',
-        verb: 'GET',
-        phase: '*',  //all stages for now
-        resource: 'null'
-    };
+  it('PolicyBuilder.retrieveAccountId() returns false when receives undefined', () => {
+    const policyBuilder = new PolicyBuilder(testPrincipalId, null, null);
+    assert(policyBuilder.retrieveAccountId() === false);
+  });
 
-    it('PolicyBuilder should have version of 2012-10-17', () => {
-        var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
-        var policy = policyBuilder.build();
-    });
+  it('PolicyBuilder.retrieveRegion() should return regionId', () => {
+    const policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
+    assert(policyBuilder.retrieveRegion(event) === 'us-west-2');
+  });
 
-    it('PolicyBuilder.retrieveAccountId() should return an accountId', () => {
-        var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
-        assert('420465592407' === policyBuilder.retrieveAccountId());
-    });
+  it('PolicyBuilder.retrieveRegion() returns falsey when receives undefined', () => {
+    const policyBuilder = new PolicyBuilder(testPrincipalId, context);
+    assert(policyBuilder.retrieveRegion() === false);
+  });
 
-    it('PolicyBuilder.retrieveAccountId() returns false when receives undefined', () => {
-        var policyBuilder = new PolicyBuilder(testPrincipalId, null, null);
-        assert(false === policyBuilder.retrieveAccountId());
-    });
-
-    it('PolicyBuilder.retrieveRegion() should return regionId', () => {
-        var policyBuilder = new PolicyBuilder(testPrincipalId, context, event);
-        assert('us-west-2' === policyBuilder.retrieveRegion(event));
-    });
-
-    it('PolicyBuilder.retrieveRegion() returns falsey when receives undefined', () => {
-        var policyBuilder = new PolicyBuilder(testPrincipalId, context);
-        assert( false === policyBuilder.retrieveRegion());
-    });
-
-    it('PolicyBuilder should create deny policy if null principalId', () => {
-        var policyBuilder = new PolicyBuilder(null, context, event);
-        var policy = policyBuilder.build();
-        assert( effect.DENY === policy.policyDocument.Statement[0].Effect );
-    });
+  it('PolicyBuilder should create deny policy if null principalId', () => {
+    const policyBuilder = new PolicyBuilder(null, context, event);
+    const policy = policyBuilder.build();
+    assert(policy.policyDocument.Statement[0].Effect === effect.DENY);
+  });
 });

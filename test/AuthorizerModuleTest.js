@@ -74,8 +74,7 @@ describe('Authorizer Unit Tests on authorize()', () => {
       });
   });
 
-  // TODO enable when Facebook is working
-  xit('Authorizer authorize() flow with valid Facebook', () => {
+  it('Authorizer authorize() flow with valid Facebook', () => {
     const goodPromise = new Promise((resolve) => {
       resolve(fbPrincipalId);
     });
