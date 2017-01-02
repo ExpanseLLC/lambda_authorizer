@@ -169,6 +169,8 @@ curl -X GET -H "Authorization: Bearer foo" https://api.amazon.com/user/profile
 
 Valid Token Response
 ```JavaScript
+curl -X GET 'https://graph.facebook.com/debug_token?input_token={authorizationToken}&access_token={appId}|{appSecret}'
+200 OK
 {
   "data": {
     "app_id": "application.identifier",
