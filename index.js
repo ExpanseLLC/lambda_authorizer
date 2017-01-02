@@ -17,14 +17,18 @@ exports.handler = (event, context) => {
   authorizer.authorize(event, context)
     .then((policy) => {
       logger.info(`Success: Policy is ${JSON.stringify(policy)}`, {
-        timestamp: Date.now(), pid: process.pid
+        context: 'index',
+        timestamp: Date.now(),
+        pid: process.pid
       });
 
       context.succeed(policy);
     })
     .catch((error) => {
       logger.info(`Error: error is ${JSON.stringify(error)}`, {
-        timestamp: Date.now(), pid: process.pid
+        context: 'index',
+        timestamp: Date.now(),
+        pid: process.pid
       });
 
       context.fail(error);
