@@ -4,7 +4,7 @@ Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon I
 ## Authors
 [Meghan Erickson](https://www.linkedin.com/in/meghanerickson)
 
-[James Shank](https://www.linkedin.com/in/james-shank)
+[James Shank](https://www.linkedin.com/in/james-shank-1a955017)
 
 [Ryan Scott](https://www.linkedin.com/in/ryanwscott)
 
