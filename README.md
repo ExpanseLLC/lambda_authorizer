@@ -29,7 +29,6 @@ You can create additional imports in the `lib/` directory. The `lib/` will be in
 Testing is done with [Mocha](https://mochajs.org).
 
 ```bash
-$ npm install -g mocha
 $ npm install
 $ npm test
 ```
