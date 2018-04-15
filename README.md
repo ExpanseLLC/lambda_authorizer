@@ -1,4 +1,7 @@
 # Custom Lambda Authorizer for ApiGateway using Node and Promise Pattern
+
+[![Build Status](https://travis-ci.org/ExpanseLLC/lambda_authorizer.svg?branch=master)](https://travis-ci.org/ExpanseLLC/lambda_authorizer)
+
 Enables API Authorization using Bearer Tokens from Google, Facebook and Amazon Id Providers.
 
 ## Authors
