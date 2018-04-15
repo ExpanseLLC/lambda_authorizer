@@ -6,4 +6,4 @@ install:
   - npm install
 
 script:
-  - npm lint
+  - eslint *.js lib/** test/**
