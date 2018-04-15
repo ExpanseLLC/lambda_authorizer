@@ -7,3 +7,4 @@ install:
 
 script:
   - eslint *.js lib/** test/**
+  - npm test
